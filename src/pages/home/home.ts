@@ -11,7 +11,10 @@ export class HomePage {
 
   minutes:string = '00';
   seconds:string = '00';
+  timerInterval: any;
+  startAndReset: boolean = true;
   tabBarElement: any;
+
 
   constructor(public navCtrl: NavController) {
     this.tabBarElement = document.querySelector('.tabbar');
@@ -23,12 +26,27 @@ export class HomePage {
   startTimer(){
     var self = this;
     var now = new Date();
-    var timerInterval = setInterval(function(){
+    this.startAndReset = false;
+    this.timerInterval = setInterval(function(){
       var timer = new CommonTimer();
       var timeRemaining = timer.getTimeRemaing(now);
 
       self.updateTime(timeRemaining);
     }, 995);
+  }
+
+  stopTimer(){
+
+    /* later */
+    clearInterval(this.timerInterval);
+  }
+
+  resetTimer(){
+    //this.minutes = '00';
+    //this.seconds = '00';
+    //this.timerInterval = null;
+    this.stopTimer();
+    this.startTimer();
   }
 
   updateTime(time: any){
